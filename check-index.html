@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>CEK VRM KAMU — PASTI MUNCUL 2025</title>
+  <style>
+    body { margin:0; background:#1a1a2e; overflow:hidden; font-family:Arial; color:white; }
+    canvas { display:block; }
+    #info { position:absolute; top:10px; left:10px; background:rgba(0,0,0,0.6); padding:10px; border-radius:8px; z-index:99; }
+  </style>
+</head>
+<body>
+
+<div id="info">
+  <h2>CEK FILE VRM KAMU</h2>
+  <p>Taruh file <b>tererst.vrm</b> di folder yang sama dengan file ini</p>
+  <p>Jika muncul karakter → VRM SEHAT 100%</p>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/three@0.180.0/build/three.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.180.0/examples/js/controls/OrbitControls.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/three@0.180.0/examples/js/loaders/GLTFLoader.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@pixiv/three-vrm@3.4.4/lib/three-vrm.min.js"></script>
+
+<script>
+// TUNGGU SEMUA LIBRARY SELESAI
+function start() {
+  if (!window.THREE || !window.VRM) {
+    setTimeout(start, 100);
+    return;
+  }
+
+  const canvas = document.createElement('canvas');
+  document.body.appendChild(canvas);
+  canvas.style.width = '100vw';
+  canvas.style.height = '100vh';
+
+  const renderer = new THREE.WebGLRenderer({canvas, antialias:true, alpha:true});
+  renderer.setSize(innerWidth, innerHeight);
+  renderer.setPixelRatio(devicePixelRatio);
+
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x1a1a2e);
+  scene.add(new THREE.AmbientLight(0xffffff, 1.5));
+  const light = new THREE.DirectionalLight(0xffffff, 1);
+  light.position.set(1,2,3);
+  scene.add(light);
+
+  const camera = new THREE.PerspectiveCamera(45, innerWidth/innerHeight, 0.1, 100);
+  camera.position.set(0, 1.4, 2);
+  new THREE.OrbitControls(camera, canvas);
+
+  const loader = new THREE.GLTFLoader();
+  loader.register(parser => new VRM.VRMLoaderPlugin(parser));
+
+  loader.load('tererst.vrm', 
+    gltf => {
+      VRM.from(gltf).then(vrm => {
+        vrm.scene.rotation.y = Math.PI;
+        scene.add(vrm.scene);
+        document.getElementById('info').innerHTML = '<h1 style="color:lime">VRM SEHAT 100% — MUNCUL GILA COY!!!</h1>';
+        console.log("tererst.vrm SEHAT & MUNCUL!");
+      });
+    },
+    undefined,
+    err => {
+      document.getElementById('info').innerHTML = '<h1 style="color:red">VRM RUSAK / TIDAK VALID<br>Error: ' + err.message + '</h1>';
+      console.error("VRM GAGAL:", err);
+    }
+  );
+
+  function animate() {
+    requestAnimationFrame(animate);
+    renderer.render(scene, camera);
+  }
+  animate();
+
+  window.onresize = () => {
+    camera.aspect = innerWidth/innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(innerWidth, innerHeight);
+  };
+}
+
+start();
+</script>
+</body>
+</html>

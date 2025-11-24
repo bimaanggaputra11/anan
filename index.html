@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Agent VRM - Text to Speech</title>
+    <link rel="stylesheet" href="css/styles.css">
+    
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <header class="header">
+            <div class="header-content">
+                <div class="header-title">
+                    <h1>AI Agent VRM</h1>
+                    <p>Text-to-Speech with PumpFun Chat</p>
+                </div>
+                <div class="header-controls">
+                    <button id="muteBtn" class="btn-icon" title="Mute/Unmute">
+                        <svg id="volumeIcon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"></polygon>
+                            <path d="M19.07 4.93a10 10 0 0 1 0 14.14"></path>
+                            <path d="M15.54 8.46a5 5 0 0 1 0 7.07"></path>
+                        </svg>
+                    </button>
+                    <button id="settingsBtn" class="btn-icon" title="Settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M12 1v6m0 6v6m5.2-13.8l-4.2 4.2m0 6l4.2 4.2m5.8-5.2h-6m-6 0H1m13.8 5.2l-4.2-4.2m0-6l-4.2-4.2"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Settings Panel -->
+        <div id="settingsPanel" class="settings-panel" style="display: none;">
+            <h3>Settings</h3>
+            <div class="settings-content">
+                <div class="form-group">
+                    <label for="elevenLabsKey">ElevenLabs API Key</label>
+                    <input type="password" id="elevenLabsKey" placeholder="sk_...">
+                </div>
+                <div class="form-group">
+                    <label for="voiceId">Voice ID</label>
+                    <input type="text" id="voiceId" value="21m00Tcm4TlvDq8ikWAM">
+                </div>
+                <div class="form-group">
+                    <label for="pumpfunUrl">PumpFun WebSocket URL</label>
+                    <input type="text" id="pumpfunUrl" placeholder="wss://pumpfun-api-url">
+                </div>
+                <button id="saveSettingsBtn" class="btn-primary">Save Settings</button>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- VRM Character Section -->
+            <div class="vrm-section">
+                <div class="vrm-container">
+                    <canvas id="vrmCanvas"></canvas>
+                    <div class="vrm-label">VRM Character</div>
+                </div>
+                <div class="vrm-controls">
+                    <div class="status-indicator">
+                        <div id="speakingIndicator" class="indicator"></div>
+                        <span id="statusText">Idle</span>
+                    </div>
+                    <button id="connectBtn" class="btn-connect">Connect to PumpFun</button>
+                </div>
+            </div>
+
+            <!-- Chat Section -->
+            <div class="chat-section">
+                <div class="chat-header">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                    </svg>
+                    <h2>PumpFun Chat Room</h2>
+                </div>
+                <div id="chatContainer" class="chat-container">
+                    <div class="chat-empty">
+                        <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
+                        </svg>
+                        <p>Waiting for messages...</p>
+                        <p class="chat-empty-sub">Click "Connect to PumpFun" to start</p>
+                    </div>
+                </div>
+                <div class="chat-footer">
+                    <span id="messageCount">0 messages</span> • AI Agent Active
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Footer -->
+        <div class="info-footer">
+            <p><strong>Cara Kerja:</strong></p>
+            <ol>
+                <li>Masukkan ElevenLabs API Key di Settings</li>
+                <li>Klik "Connect to PumpFun" untuk mulai monitoring chat</li>
+                <li>Chat dari PumpFun akan muncul dan AI akan merespons dengan suara</li>
+                <li>Karakter VRM akan beranimasi saat berbicara</li>
+            </ol>
+            <p class="note">
+                <strong>Note:</strong> Untuk production, upload file VRM ke folder assets/ dan ganti WebSocket URL dengan endpoint PumpFun yang sebenarnya.
+            </p>
+        </div>
+    </div>
+
+    <!-- Load Scripts -->
+    <script src="js/config.js"></script>
+    <script src="js/vrmViewer.js"></script>
+    <script src="js/ttsService.js"></script>
+    <script src="js/aiService.js"></script>
+    <script src="js/chatManager.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>
