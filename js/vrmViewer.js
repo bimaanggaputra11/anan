@@ -33,7 +33,7 @@ class VRMViewer {
 
         try {
             console.log("Loading tererst.vrm dari assets/ ...");
-            const gltf = await loader.loadAsync('assets/tererst.vrm');
+            const gltf = await loader.loadAsync('/assets/tererst.vrm');
             this.vrm = await VRM.from(gltf);
 
             this.vrm.scene.rotation.y = Math.PI;
